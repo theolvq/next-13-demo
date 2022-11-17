@@ -1,4 +1,4 @@
-import { Category, Product } from '../types';
+import { Category, ID, Product } from '../types';
 
 const API_URL = process.env.API_URL;
 
@@ -20,7 +20,7 @@ export async function getProducts({
 }: {
   limit?: number;
   category?: Category;
-}): Promise<Product[]> {
+} = {}): Promise<Product[]> {
   const basePath = '/products';
 
   if (limit) {
@@ -29,13 +29,15 @@ export async function getProducts({
   }
 
   if (category) {
-    return await fetchApi(`${basePath}/${category}`);
+    const encodedCategory = encodeURIComponent(category);
+    const path = `${basePath}/category/${encodedCategory}`;
+    return await fetchApi(path);
   }
 
   return await fetchApi(basePath);
 }
 
-export async function getProduct(id: string | number): Promise<Product> {
+export async function getProduct(id: ID): Promise<Product> {
   return await fetchApi(`/products/${id}`);
 }
 
@@ -45,4 +47,21 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getCategory(category: Category): Promise<Category> {
   return await fetchApi(`/products/category/${category}`);
+}
+
+export async function getRelatedProductsFromProductId(id: ID) {
+  const product = await getProduct(id);
+  const { category } = product;
+  const relatedProducts = await getProducts({ category });
+  return relatedProducts.filter((product) => product.id !== id);
+}
+
+export async function getProductsByCategories() {
+  const categories = await getCategories();
+  let productsByCategory = [];
+  for (const category of categories) {
+    const products = await getProducts({ category });
+    productsByCategory.push(products);
+  }
+  return productsByCategory;
 }

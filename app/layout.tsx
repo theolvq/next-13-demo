@@ -10,7 +10,6 @@ const openSans = Open_Sans({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const categories = await getCategories();
-  console.log(categories);
   return (
     <html lang='en' className={openSans.variable}>
       {/*
@@ -20,9 +19,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head />
       <body>
         <header>
-          <Nav categories={categories} />
+          <Nav />
         </header>
-        {children}
+        <main className='bg-gray-100 p-12 '>{children}</main>
       </body>
     </html>
   );

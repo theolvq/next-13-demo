@@ -1,23 +1,17 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
-import { Category } from '../../types';
+import React from 'react';
 
-interface Props {
-  categories: Category[];
-}
-
-const Nav: FC<Props> = ({ categories }) => {
+export default function Nav() {
   return (
     <nav>
-      <ul>
-        {categories.map((category) => (
-          <Link key={category} href={`/category/${category}`}>
-            {category}
-          </Link>
-        ))}
+      <ul className='flex gap-10 py-6 max-w-5xl mx-auto'>
+        <li>
+          <Link href='/'>Home</Link>
+        </li>
+        <li>
+          <Link href='/products'>Shop</Link>
+        </li>
       </ul>
     </nav>
   );
-};
-
-export default Nav;
+}

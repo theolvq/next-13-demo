@@ -1,9 +1,9 @@
 export interface Product {
-  id: number;
+  id: ID;
   title: string;
   price: number;
   description: string;
-  category: string;
+  category: Category;
   image: string;
   rating: {
     rate: number;
@@ -12,3 +12,5 @@ export interface Product {
 }
 
 export type Category = 'electronics' | 'jewelery' | "men's clothing" | "women's clothing";
+
+export type ID = string | number;

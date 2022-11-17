@@ -13,7 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'dummyjson.com/**',
+        hostname: 'fakestoreapi.com/**',
       },
     ],
   },

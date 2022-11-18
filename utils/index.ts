@@ -17,28 +17,30 @@ export async function fetchApi(path: string, options?: RequestInit) {
 export async function getProducts({
   limit,
   category,
+  options,
 }: {
   limit?: number;
   category?: Category;
+  options?: RequestInit;
 } = {}): Promise<Product[]> {
   const basePath = '/products';
 
   if (limit) {
     const searchParam = `limit=${limit}`;
-    return await fetchApi(`${basePath}/${searchParam}`);
+    return await fetchApi(`${basePath}/${searchParam}`, { ...options });
   }
 
   if (category) {
     const encodedCategory = encodeURIComponent(category);
     const path = `${basePath}/category/${encodedCategory}`;
-    return await fetchApi(path);
+    return await fetchApi(path, { ...options });
   }
 
   return await fetchApi(basePath);
 }
 
-export async function getProduct(id: ID): Promise<Product> {
-  return await fetchApi(`/products/${id}`);
+export async function getProduct(id: ID, options?: RequestInit): Promise<Product> {
+  return await fetchApi(`/products/${id}`, { ...options });
 }
 
 export async function getCategories(): Promise<Category[]> {

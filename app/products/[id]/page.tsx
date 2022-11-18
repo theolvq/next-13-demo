@@ -10,8 +10,10 @@ export async function generateStaticParams() {
   }));
 }
 
+const revalidate = 60 * 60; // every hour
+
 export default async function Page({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id);
+  const product = await getProduct(params.id, { next: { revalidate } });
 
   return (
     <div>
